@@ -86,20 +86,6 @@ mv "${tmp_dir}/${scanner_dir}" "${opt_dir}"
 # Print a success message with the installation location
 echo "SonarQube scanner installed to ${opt_dir}/${scanner_dir}"
 
-mkdir application
-cd application
-git clone https://myblenet@bitbucket.org/myblenet/ui.git
-cd ui
-git switch pre-release
-git fetch --all
-git pull
-git branch
-cp envs/.env.sample envs/.env.local
-yarn
-echo -e "$(cat package.json)" | jq '.scripts'
-yarn build
-yarn dev
-
 # "${opt_dir}" \
 #   -Dsonar.projectKey=PROJECT_KEY \
 #   -Dsonar.sources=. \

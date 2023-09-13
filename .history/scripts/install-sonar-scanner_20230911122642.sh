@@ -41,13 +41,13 @@ os_name="${os_name,,}"
 # Map the operating system name to the corresponding SonarQube scanner version
 case $os_name in
 windows)
-    scanner_version="sonar-scanner-cli-5.0.1.3006-windows"
+    SCANNER_VERSION="sonar-scanner-cli-5.0.1.3006-windows"
     ;;
 linux)
-    scanner_version="sonar-scanner-cli-5.0.1.3006-linux"
+    SCANNER_VERSION="sonar-scanner-cli-5.0.1.3006-linux"
     ;;
 mac)
-    scanner_version="sonar-scanner-cli-5.0.1.3006-macosx"
+    SCANNER_VERSION="sonar-scanner-cli-5.0.1.3006-macosx"
     ;;
 *)
     # If the operating system is not supported, exit with an error message
@@ -56,12 +56,12 @@ mac)
     ;;
 esac
 
-echo -e "\n\n\n\n\n\n=============================\n\t\t\t${scanner_version}\t\t\t\n=============================\n\n\n\n\n\n\n\n\n\n\n"
+echo -e "\n\n\n\n\n\n=============================\n\t\t\t${SCANNER_VERSION}\t\t\t\n=============================\n\n\n\n\n\n\n\n\n\n\n"
 sleep 7
 
 # Define the URL for downloading the SonarQube scanner
-download_url="https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/${scanner_version}.zip"
-echo -e "\n\n*****\nDefine the URL for downloading the SonarQube scanner: \n\"https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/${scanner_version}.zip\"\n*****\n\n"
+DOWNLOAD_URL="https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/${SCANNER_VERSION}.zip"
+echo "\n\n*****\nDefine the URL for downloading the SonarQube scanner: \n\"https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/${SCANNER_VERSION}.zip\"\n*****\n\n"
 
 # Check if the installation directory exists, if not create it
 if [ ! -d "${opt_dir}" ]; then
@@ -69,45 +69,19 @@ if [ ! -d "${opt_dir}" ]; then
 fi
 
 # Download the SonarQube scanner
-wget -q -O "${tmp_dir}/${scanner_version}.zip" "$download_url"
+wget -q -O "${TMP_DIR}/${SCANNER_VERSION}.zip" "$DOWNLOAD_URL"
 
 # Unzip the downloaded file
-unzip "${tmp_dir}/${scanner_version}.zip" -d "${tmp_dir}"
+unzip "${TMP_DIR}/${SCANNER_VERSION}.zip" -d "${TMP_DIR}"
 
 # Remove the downloaded zip file
-rm "${tmp_dir}/${scanner_version}.zip"
+rm "${TMP_DIR}/${SCANNER_VERSION}.zip"
 
 # Define the directory name of the unzipped scanner
-scanner_dir="${scanner_version/-cli/}"
+SCANNER_DIR="${SCANNER_VERSION/-cli/}"
 
 # Move the unzipped scanner to the installation directory
-mv "${tmp_dir}/${scanner_dir}" "${opt_dir}"
+mv "${TMP_DIR}/${SCANNER_DIR}" "${opt_dir}"
 
 # Print a success message with the installation location
-echo "SonarQube scanner installed to ${opt_dir}/${scanner_dir}"
-
-mkdir application
-cd application
-git clone https://myblenet@bitbucket.org/myblenet/ui.git
-cd ui
-git switch pre-release
-git fetch --all
-git pull
-git branch
-cp envs/.env.sample envs/.env.local
-yarn
-echo -e "$(cat package.json)" | jq '.scripts'
-yarn build
-yarn dev
-
-# "${opt_dir}" \
-#   -Dsonar.projectKey=PROJECT_KEY \
-#   -Dsonar.sources=. \
-#   -Dsonar.host.url=http://localhost:9000 \
-#   -Dsonar.token=YOUR_TOKEN_HERE
-
-/usr/local/opt/sonar-scanner-5.0.1.3006-macosx/bin/sonar-scanner \
-    -Dsonar.projectKey=fly-embraer \
-    -Dsonar.sources=. \
-    -Dsonar.host.url=http://localhost:9000 \
-    -Dsonar.token=sqp_5cb2b15f6b5001aab92a489be1e9007db76a00de
+echo "SonarQube scanner installed to ${opt_dir}/${SCANNER_DIR}"

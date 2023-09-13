@@ -1,3 +1,4 @@
+./scripts/install-sonar-scanner.sh
 #!/bin/bash
 
 # This script is used to download and install SonarQube scanner
@@ -56,12 +57,37 @@ mac)
     ;;
 esac
 
-echo -e "\n\n\n\n\n\n=============================\n\t\t\t${scanner_version}\t\t\t\n=============================\n\n\n\n\n\n\n\n\n\n\n"
+echo ""
+echo ""
+echo ""
+echo ""
+
+echo "============================="
+			echo "${scanner_version}			"
+echo "============================="
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+
+echo """
 sleep 7
 
 # Define the URL for downloading the SonarQube scanner
 download_url="https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/${scanner_version}.zip"
-echo -e "\n\n*****\nDefine the URL for downloading the SonarQube scanner: \n\"https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/${scanner_version}.zip\"\n*****\n\n"
+echo -e "
+
+*****
+Define the URL for downloading the SonarQube scanner: 
+\"https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/${scanner_version}.zip\"
+*****
+
+"
 
 # Check if the installation directory exists, if not create it
 if [ ! -d "${opt_dir}" ]; then
@@ -85,29 +111,3 @@ mv "${tmp_dir}/${scanner_dir}" "${opt_dir}"
 
 # Print a success message with the installation location
 echo "SonarQube scanner installed to ${opt_dir}/${scanner_dir}"
-
-mkdir application
-cd application
-git clone https://myblenet@bitbucket.org/myblenet/ui.git
-cd ui
-git switch pre-release
-git fetch --all
-git pull
-git branch
-cp envs/.env.sample envs/.env.local
-yarn
-echo -e "$(cat package.json)" | jq '.scripts'
-yarn build
-yarn dev
-
-# "${opt_dir}" \
-#   -Dsonar.projectKey=PROJECT_KEY \
-#   -Dsonar.sources=. \
-#   -Dsonar.host.url=http://localhost:9000 \
-#   -Dsonar.token=YOUR_TOKEN_HERE
-
-/usr/local/opt/sonar-scanner-5.0.1.3006-macosx/bin/sonar-scanner \
-    -Dsonar.projectKey=fly-embraer \
-    -Dsonar.sources=. \
-    -Dsonar.host.url=http://localhost:9000 \
-    -Dsonar.token=sqp_5cb2b15f6b5001aab92a489be1e9007db76a00de
